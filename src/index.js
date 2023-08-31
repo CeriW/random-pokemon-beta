@@ -8,9 +8,6 @@ const P = new Pokedex();
 const totalPokemon = 1020;
 
 const PokemonCard = (pokemon) => {
-  // const myPokemon = getRandomPokemon();
-  // const myRandomPokemon =
-
   const thisPokemon = { ...pokemon.pokemon };
 
   console.log(thisPokemon);
@@ -20,31 +17,14 @@ const PokemonCard = (pokemon) => {
       <div className="pokemon-id">#{thisPokemon.id}</div>
       <img src={thisPokemon.sprites.other.home.front_default} alt={thisPokemon.name} />
       <SpriteList spriteList={thisPokemon.sprites} />
+      <div>Weight: {weightToKilos(thisPokemon.weight)}kg</div>
+      <BaseStatsList stats={thisPokemon.stats} />
+      <TypeList types={thisPokemon.types} />
     </div>
   );
 };
 
 const SpriteList = (spriteList) => {
-  // console.log(spriteList.spriteList);
-  // console.log(Object.keys(spriteList.spriteList));
-
-  // const spriteImages = [];
-
-  // spriteKeys.forEach((type) => {
-  //   spriteImages.push(
-  //     typeof spriteList.spriteList[type] === 'string' && (
-  //       <div>
-  //         <img src={spriteList.spriteList[type]} />
-  //         <span>{type}</span>
-  //       </div>
-  //     )
-  //   );
-  // });
-
-  // const spriteImages = spriteList.spriteList.map((sprite) => {
-  //   return sprite ? <img src={sprite} /> : null;
-  // });
-
   return (
     <div>
       {spriteList.spriteList.front_default && (
@@ -54,9 +34,9 @@ const SpriteList = (spriteList) => {
         </span>
       )}
 
-      {spriteList.spriteList.shiny_default && (
+      {spriteList.spriteList.front_shiny && (
         <span>
-          <img src={spriteList.spriteList.shiny_default} alt="shiny sprite" />
+          <img src={spriteList.spriteList.front_shiny} alt="shiny sprite" />
           Shiny
         </span>
       )}
@@ -79,6 +59,38 @@ const SpriteList = (spriteList) => {
   // return <div>{JSON.stringify(spriteList)}</div>;
 };
 
+const BaseStatsList = (stats) => {
+  const statsList = [];
+  stats.stats.forEach((stat) => {
+    statsList.push(
+      <tr key={stat.stat.name}>
+        <td>{stat.stat.name}</td>
+        <td>{stat.base_stat}</td>
+      </tr>
+    );
+  });
+
+  return (
+    <table>
+      <tbody>
+        <tr>
+          <th>Base stats</th>
+        </tr>
+        {statsList}
+      </tbody>
+    </table>
+  );
+};
+
+const TypeList = (types) => {
+  const typeList = [];
+  types.types.forEach((type) => {
+    typeList.push(<span key={`type-${type.slot}`}>{type.type.name}</span>);
+  });
+
+  return <div>{typeList}</div>;
+};
+
 const getRandomPokemon = async () => {
   const randomNumber = Math.ceil(Math.random() * totalPokemon);
   const myPokemon = await P.getPokemonByName(randomNumber);
@@ -86,16 +98,16 @@ const getRandomPokemon = async () => {
 };
 
 const myPokemon = await getRandomPokemon();
-// console.log(myPokemon);
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    {/* <App /> */}
-
     <PokemonCard pokemon={myPokemon} />
   </React.StrictMode>
 );
+
+const weightToKilos = (hectograms) => {
+  return (hectograms * 100) / 1000;
+};
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
