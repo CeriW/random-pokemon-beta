@@ -13,12 +13,14 @@ const PokemonCard = (pokemon) => {
   console.log(thisPokemon);
   return (
     <div className="pokemon-card">
-      <div className="pokemon-name">{thisPokemon.name}</div>
-      <div className="pokemon-id">#{thisPokemon.id}</div>
-      <img src={thisPokemon.sprites.other.home.front_default} alt={thisPokemon.name} />
+      <div className="pokemon-name">
+        <h1>{thisPokemon.name}</h1>
+        <span className="pokemon-id">#{thisPokemon.id}</span>
+      </div>
+      <img className="pokemon-img-main" src={thisPokemon.sprites.other.home.front_default} alt={thisPokemon.name} />
       <SpriteList spriteList={thisPokemon.sprites} />
-      <div>Weight: {weightToKilos(thisPokemon.weight)}kg</div>
-      <div>Height: {heightToCM(thisPokemon.height)}cm</div>
+      <div className="pokemon-weight">Weight: {weightToKilos(thisPokemon.weight)}kg</div>
+      <div className="pokemon-height">Height: {heightToCM(thisPokemon.height)}cm</div>
       <BaseStatsList stats={thisPokemon.stats} />
       <TypeList types={thisPokemon.types} />
       <HeldItemsList items={thisPokemon.held_items} />
@@ -28,7 +30,7 @@ const PokemonCard = (pokemon) => {
 
 const SpriteList = (spriteList) => {
   return (
-    <div>
+    <div className="sprites">
       {spriteList.spriteList.front_default && (
         <span>
           <img src={spriteList.spriteList.front_default} alt="default sprite" />
@@ -58,7 +60,6 @@ const SpriteList = (spriteList) => {
       )}
     </div>
   );
-  // return <div>{JSON.stringify(spriteList)}</div>;
 };
 
 const BaseStatsList = (stats) => {
@@ -73,14 +74,12 @@ const BaseStatsList = (stats) => {
   });
 
   return (
-    <table>
-      <tbody>
-        <tr>
-          <th>Base stats</th>
-        </tr>
-        {statsList}
-      </tbody>
-    </table>
+    <div className="base-stats">
+      <h2>Base stats</h2>
+      <table>
+        <tbody>{statsList}</tbody>
+      </table>
+    </div>
   );
 };
 
@@ -90,18 +89,23 @@ const TypeList = (types) => {
     typeList.push(<span key={`type-${type.slot}`}>{type.type.name}</span>);
   });
 
-  return <span>{typeList}</span>;
+  return (
+    <span className="type-list">
+      <h2>Types</h2>
+      {typeList}
+    </span>
+  );
 };
 
 const HeldItemsList = (items) => {
   const itemsList = [];
   items.items.forEach((item) => {
-    itemsList.push(<li>{item.item.name}</li>);
+    itemsList.push(<li key={items.items.indexOf(item)}>{item.item.name}</li>);
   });
 
   return (
     itemsList.length > 0 && (
-      <div>
+      <div className="held-items">
         <h2>Held items</h2>
         <ul>{itemsList}</ul>
       </div>
@@ -111,7 +115,8 @@ const HeldItemsList = (items) => {
 
 const getRandomPokemon = async () => {
   const randomNumber = Math.ceil(Math.random() * totalPokemon);
-  const myPokemon = await P.getPokemonByName(randomNumber);
+  // const myPokemon = await P.getPokemonByName(randomNumber);
+  const myPokemon = await P.getPokemonByName(396);
   return myPokemon;
 };
 

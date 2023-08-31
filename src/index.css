@@ -1,4 +1,4 @@
-body {
+/* body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -10,4 +10,115 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+} */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Phudu&display=swap');
+
+:root {
+  --blue: #375da9;
+  --yellow: #ffcc01;
+}
+
+body {
+  background: var(--blue);
+  padding: 10px;
+  font-family: 'Inter', sans-serif;
+  /* font-family: 'Phudu', cursive; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 20px);
+  box-sizing: border-box;
+}
+
+h1,
+h2 {
+  font-family: 'Phudu', cursive;
+  margin: 0;
+  line-height: 1;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1 {
+  text-transform: capitalize;
+  font-size: 2.8em;
+}
+
+table {
+  width: 100%;
+}
+
+.pokemon-card {
+  width: max-content;
+  /* padding: 10px; */
+  border: 10px solid var(--yellow);
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  display: grid;
+  grid-template:
+    'name name name' min-content
+    'main-image weight base-stats' min-content
+    'main-image height base-stats' min-content
+    'main-image types base-stats' min-content
+    'main-image held-items base-stats' min-content
+    'main-image sprites sprites' 1fr
+    / 400px 200px 200px;
+  gap: 10px;
+}
+
+.sprites {
+  display: flex;
+  align-items: flex-end;
+}
+
+.sprites > span {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pokemon-name {
+  grid-area: name;
+  background: var(--yellow);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0 0 10px;
+}
+
+.pokemon-img-main {
+  grid-area: main-image;
+  align-self: center;
+}
+
+/* .pokemon-id {
+  grid-area: id;
+} */
+
+.pokemon-weight {
+  grid-area: weight;
+}
+.pokemon-height {
+  grid-area: height;
+}
+
+.sprites {
+  grid-area: sprites;
+}
+
+.base-stats {
+  grid-area: base-stats;
+}
+
+.held-items {
+  grid-area: held-items;
+}
+
+.type-list {
+  grid-area: types;
 }
