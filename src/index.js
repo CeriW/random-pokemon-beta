@@ -18,8 +18,10 @@ const PokemonCard = (pokemon) => {
       <img src={thisPokemon.sprites.other.home.front_default} alt={thisPokemon.name} />
       <SpriteList spriteList={thisPokemon.sprites} />
       <div>Weight: {weightToKilos(thisPokemon.weight)}kg</div>
+      <div>Height: {heightToCM(thisPokemon.height)}cm</div>
       <BaseStatsList stats={thisPokemon.stats} />
       <TypeList types={thisPokemon.types} />
+      <HeldItemsList items={thisPokemon.held_items} />
     </div>
   );
 };
@@ -88,7 +90,23 @@ const TypeList = (types) => {
     typeList.push(<span key={`type-${type.slot}`}>{type.type.name}</span>);
   });
 
-  return <div>{typeList}</div>;
+  return <span>{typeList}</span>;
+};
+
+const HeldItemsList = (items) => {
+  const itemsList = [];
+  items.items.forEach((item) => {
+    itemsList.push(<li>{item.item.name}</li>);
+  });
+
+  return (
+    itemsList.length > 0 && (
+      <div>
+        <h2>Held items</h2>
+        <ul>{itemsList}</ul>
+      </div>
+    )
+  );
 };
 
 const getRandomPokemon = async () => {
@@ -107,6 +125,10 @@ root.render(
 
 const weightToKilos = (hectograms) => {
   return (hectograms * 100) / 1000;
+};
+
+const heightToCM = (decimetres) => {
+  return decimetres * 10;
 };
 
 // If you want to start measuring performance in your app, pass a function
