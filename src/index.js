@@ -1,18 +1,35 @@
-import React, { useState, useEffect } from "react";
-import ReactDOM from "react-dom/client";
-import "./index.css";
-// import App from './App';
-import reportWebVitals from "./reportWebVitals";
-import Pokedex from "pokedex-promise-v2";
+import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import reportWebVitals from './reportWebVitals';
+import Pokedex from 'pokedex-promise-v2';
 const P = new Pokedex();
 
-console.log(await P.getPokemonSpeciesList());
+const PokemonApp = () => {
+  const [currentPokemon, setCurrentPokemon] = useState(null);
+
+  const getRandomPokemon = async () => {
+    const totalPokemon = 1010;
+    const randomNumber = Math.ceil(Math.random() * totalPokemon);
+    const myPokemon = await P.getPokemonByName(randomNumber);
+    return myPokemon;
+  };
+
+  const handleGeneratePokemon = async () => {
+    const newRandomPokemon = await getRandomPokemon();
+    setCurrentPokemon(newRandomPokemon);
+  };
+
+  return (
+    <div>
+      {currentPokemon ? <PokemonCard pokemon={currentPokemon} /> : ''}
+      <button onClick={handleGeneratePokemon}>Generate Random Pokemon</button>
+    </div>
+  );
+};
 
 const PokemonCard = (pokemon) => {
   const thisPokemon = { ...pokemon.pokemon };
-  // document.body.style.background = thisPokemon.sprites.other.home.front_default;
-
-  console.log(thisPokemon);
   return (
     <div className="pokemon-card">
       <div className="pokemon-name">
@@ -43,7 +60,7 @@ const HeldItemsList = ({ items }) => {
           const response = await P.getItemByName(item.item.name);
           itemDetailsData.push(response);
         } catch (err) {
-          console.error("Error:", err);
+          console.error('Error:', err);
         }
       }
 
@@ -149,27 +166,19 @@ const TypeList = (types) => {
 // Function to capitalize the first letter of the first word
 function formatName(name) {
   // Split the name by hyphens
-  const words = name.split("-");
+  const words = name.split('-');
 
   // Capitalize the first letter of the first word and join it with the rest
-  const formattedName = words[0].charAt(0).toUpperCase() + words[0].slice(1) + (words.length > 1 ? " " + words.slice(1).join("-") : "");
+  const formattedName =
+    words[0].charAt(0).toUpperCase() + words[0].slice(1) + (words.length > 1 ? ' ' + words.slice(1).join('-') : '');
 
   return formattedName;
 }
 
-const getRandomPokemon = async () => {
-  const totalPokemon = 1010;
-  const randomNumber = Math.ceil(Math.random() * totalPokemon);
-  const myPokemon = await P.getPokemonByName(randomNumber);
-  // const myPokemon = await P.getPokemonByName(396);
-  return myPokemon;
-};
-
-const myPokemon = await getRandomPokemon();
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <PokemonCard pokemon={myPokemon} />
+    <PokemonApp />
   </React.StrictMode>
 );
 
@@ -186,4 +195,4 @@ const heightToCM = (decimetres) => {
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
 
-console.log(await P.getEvolutionChainsList());
+// console.log(await P.getEvolutionChainsList());
