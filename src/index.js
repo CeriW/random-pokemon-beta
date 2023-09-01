@@ -191,7 +191,7 @@ root.render(
       <a href="https://pokeapi.co" target="_blank" rel="noreferrer">
         PokeAPI
       </a>
-      . Pokémon and Pokémon character names are trademarks of Nintendo. All rights reserved.
+      . Pokémon and Pokémon character names are trademarks of Nintendo. All rights reserved
     </footer>
   </React.StrictMode>
 );
