@@ -20,14 +20,10 @@ const PokemonApp = () => {
     setCurrentPokemon(newRandomPokemon);
   };
 
-  useEffect(() => {
-    generateNewPokemon();
-  }, []); // The empty dependency array ensures this effect runs only once on mount
-
   return (
     <div>
       {currentPokemon ? <PokemonCard pokemon={currentPokemon} /> : ''}
-      <button onClick={generateNewPokemon}>Generate Random Pokemon</button>
+      <button onClick={generateNewPokemon}>Give me a random pokemon</button>
     </div>
   );
 };
@@ -41,8 +37,11 @@ const PokemonCard = ({ pokemon }) => {
       </div>
       <PokemonImage pokemon={pokemon} />
       <SpriteList spriteList={pokemon.sprites} />
-      <div className="pokemon-weight">Weight: {weightToKilos(pokemon.weight)}kg</div>
-      <div className="pokemon-height">Height: {heightToCM(pokemon.height)}cm</div>
+      <div className="pokemon-info">
+        <h2>Info</h2>
+        <div className="pokemon-weight">Weight: {weightToKilos(pokemon.weight)}kg</div>
+        <div className="pokemon-height">Height: {heightToCM(pokemon.height)}cm</div>
+      </div>
       <BaseStatsList stats={pokemon.stats} />
       <TypeList types={pokemon.types} />
       <HeldItemsList items={pokemon.held_items} />
@@ -185,8 +184,15 @@ function formatName(name) {
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <h1>Random Pokemon generator</h1>
+    <div></div>
     <PokemonApp />
+    <footer>
+      Powered by{' '}
+      <a href="https://pokeapi.co" target="_blank" rel="noreferrer">
+        PokeAPI
+      </a>
+      . Pokémon and Pokémon character names are trademarks of Nintendo. All rights reserved.
+    </footer>
   </React.StrictMode>
 );
 

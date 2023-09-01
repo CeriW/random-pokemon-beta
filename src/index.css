@@ -1,18 +1,4 @@
-/* body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-} */
-
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Phudu&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Phudu&display=swap');
 
 :root {
   --blue: #375da9;
@@ -41,18 +27,35 @@ code {
 body {
   background: var(--blue);
   padding: 10px;
-  font-family: "Inter", sans-serif;
-  /* font-family: 'Phudu', cursive; */
+  font-family: 'Inter', sans-serif;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
   min-height: calc(100vh - 20px);
   box-sizing: border-box;
 }
 
+a {
+  color: var(--yellow);
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#root > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
 h1,
 h2 {
-  font-family: "Phudu", cursive;
+  font-family: 'Phudu', cursive;
   margin: 0;
   line-height: 1;
 }
@@ -83,25 +86,33 @@ table {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
   display: grid;
   grid-template:
-    "name name name" min-content
-    "main-image weight base-stats" min-content
-    "main-image height base-stats" min-content
-    "main-image types base-stats" min-content
-    "main-image held-items base-stats" min-content
-    "main-image sprites sprites" 1fr
+    'name name name' min-content
+    'main-image info base-stats' min-content
+    'main-image types base-stats' min-content
+    'main-image held-items held-items' min-content
+    'main-image sprites sprites' 1fr
     / 300px 200px 200px;
-  gap: 10px;
+  gap: 20px;
+  min-height: 550px;
+}
+
+.pokemon-id {
+  font-size: large;
+  font-weight: bold;
 }
 
 .sprites > div {
   display: flex;
   align-items: flex-end;
+  gap: 5px;
 }
 
 .sprites > div > span {
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-size: 0.8em;
+  border: 1px solid #ccc;
 }
 
 .pokemon-name {
@@ -122,6 +133,8 @@ table {
 ul {
   padding: 0;
   margin: 0;
+  gap: 5px 10px;
+  flex-wrap: wrap;
 }
 
 li {
@@ -129,12 +142,20 @@ li {
   align-items: center;
   margin: 0;
   list-style: none;
-  gap: 10px;
+  white-space: nowrap;
 }
 
-/* .pokemon-id {
-  grid-area: id;
-} */
+button {
+  background: #fff;
+  color: #000;
+  padding: 5px 10px;
+  box-shadow: none;
+  font-family: 'Phudu', cursive;
+  border: 5px solid #000;
+  font-size: 1.5em;
+  cursor: pointer;
+  font-weight: bold;
+}
 
 .pokemon-weight {
   grid-area: weight;
@@ -145,6 +166,8 @@ li {
 
 .sprites {
   grid-area: sprites;
+  align-self: end;
+  padding-bottom: 10px;
 }
 
 .base-stats {
@@ -153,6 +176,10 @@ li {
 
 .held-items {
   grid-area: held-items;
+}
+
+.held-items ul {
+  display: flex;
 }
 
 .type-list {
@@ -166,7 +193,7 @@ li {
 }
 
 .type-list ul li:before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
@@ -176,57 +203,57 @@ li {
   border-radius: 50%;
 }
 
-.type-list ul li[type="normal"]:before {
+.type-list ul li[type='normal']:before {
   background-color: var(--normal);
 }
-.type-list ul li[type="fire"]:before {
+.type-list ul li[type='fire']:before {
   background-color: var(--fire);
 }
-.type-list ul li[type="water"]:before {
+.type-list ul li[type='water']:before {
   background-color: var(--water);
 }
-.type-list ul li[type="electric"]:before {
+.type-list ul li[type='electric']:before {
   background-color: var(--electric);
 }
-.type-list ul li[type="grass"]:before {
+.type-list ul li[type='grass']:before {
   background-color: var(--grass);
 }
-.type-list ul li[type="ice"]:before {
+.type-list ul li[type='ice']:before {
   background-color: var(--ice);
 }
-.type-list ul li[type="fighting"]:before {
+.type-list ul li[type='fighting']:before {
   background-color: var(--fighting);
 }
-.type-list ul li[type="poison"]:before {
+.type-list ul li[type='poison']:before {
   background-color: var(--poison);
 }
-.type-list ul li[type="ground"]:before {
+.type-list ul li[type='ground']:before {
   background-color: var(--ground);
 }
-.type-list ul li[type="flying"]:before {
+.type-list ul li[type='flying']:before {
   background-color: var(--flying);
 }
-.type-list ul li[type="psychic"]:before {
+.type-list ul li[type='psychic']:before {
   background-color: var(--psychic);
 }
-.type-list ul li[type="bug"]:before {
+.type-list ul li[type='bug']:before {
   background-color: var(--bug);
 }
-.type-list ul li[type="rock"]:before {
+.type-list ul li[type='rock']:before {
   background-color: var(--rock);
 }
-.type-list ul li[type="ghost"]:before {
+.type-list ul li[type='ghost']:before {
   background-color: var(--ghost);
 }
-.type-list ul li[type="dragon"]:before {
+.type-list ul li[type='dragon']:before {
   background-color: var(--dragon);
 }
-.type-list ul li[type="dark"]:before {
+.type-list ul li[type='dark']:before {
   background-color: var(--dark);
 }
-.type-list ul li[type="steel"]:before {
+.type-list ul li[type='steel']:before {
   background-color: var(--steel);
 }
-.type-list ul li[type="fairy"]:before {
+.type-list ul li[type='fairy']:before {
   background-color: var(--fairy);
 }
