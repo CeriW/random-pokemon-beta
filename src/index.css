@@ -12,17 +12,36 @@ code {
     monospace;
 } */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Phudu&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Phudu&display=swap");
 
 :root {
   --blue: #375da9;
   --yellow: #ffcc01;
+
+  --normal: #a8a77a;
+  --fire: #ee8130;
+  --water: #6390f0;
+  --electric: #f7d02c;
+  --grass: #7ac74c;
+  --ice: #96d9d6;
+  --fighting: #c22e28;
+  --poison: #a33ea1;
+  --ground: #e2bf65;
+  --flying: #a98ff3;
+  --psychic: #f95587;
+  --bug: #a6b91a;
+  --rock: #b6a136;
+  --ghost: #735797;
+  --dragon: #6f35fc;
+  --dark: #705746;
+  --steel: #b7b7ce;
+  --fairy: #d685ad;
 }
 
 body {
   background: var(--blue);
   padding: 10px;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   /* font-family: 'Phudu', cursive; */
   display: flex;
   align-items: center;
@@ -33,7 +52,7 @@ body {
 
 h1,
 h2 {
-  font-family: 'Phudu', cursive;
+  font-family: "Phudu", cursive;
   margin: 0;
   line-height: 1;
 }
@@ -45,6 +64,10 @@ img {
 h1 {
   text-transform: capitalize;
   font-size: 2.8em;
+}
+
+h2 {
+  margin-bottom: 10px;
 }
 
 table {
@@ -60,22 +83,22 @@ table {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
   display: grid;
   grid-template:
-    'name name name' min-content
-    'main-image weight base-stats' min-content
-    'main-image height base-stats' min-content
-    'main-image types base-stats' min-content
-    'main-image held-items base-stats' min-content
-    'main-image sprites sprites' 1fr
-    / 400px 200px 200px;
+    "name name name" min-content
+    "main-image weight base-stats" min-content
+    "main-image height base-stats" min-content
+    "main-image types base-stats" min-content
+    "main-image held-items base-stats" min-content
+    "main-image sprites sprites" 1fr
+    / 300px 200px 200px;
   gap: 10px;
 }
 
-.sprites {
+.sprites > div {
   display: flex;
   align-items: flex-end;
 }
 
-.sprites > span {
+.sprites > div > span {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -94,6 +117,19 @@ table {
 .pokemon-img-main {
   grid-area: main-image;
   align-self: center;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  list-style: none;
+  gap: 10px;
 }
 
 /* .pokemon-id {
@@ -121,4 +157,76 @@ table {
 
 .type-list {
   grid-area: types;
+}
+
+.type-list ul li {
+  position: relative;
+  padding-left: 30px;
+  margin: 5px 0;
+}
+
+.type-list ul li:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 20px;
+  bottom: 0;
+  border-radius: 50%;
+}
+
+.type-list ul li[type="normal"]:before {
+  background-color: var(--normal);
+}
+.type-list ul li[type="fire"]:before {
+  background-color: var(--fire);
+}
+.type-list ul li[type="water"]:before {
+  background-color: var(--water);
+}
+.type-list ul li[type="electric"]:before {
+  background-color: var(--electric);
+}
+.type-list ul li[type="grass"]:before {
+  background-color: var(--grass);
+}
+.type-list ul li[type="ice"]:before {
+  background-color: var(--ice);
+}
+.type-list ul li[type="fighting"]:before {
+  background-color: var(--fighting);
+}
+.type-list ul li[type="poison"]:before {
+  background-color: var(--poison);
+}
+.type-list ul li[type="ground"]:before {
+  background-color: var(--ground);
+}
+.type-list ul li[type="flying"]:before {
+  background-color: var(--flying);
+}
+.type-list ul li[type="psychic"]:before {
+  background-color: var(--psychic);
+}
+.type-list ul li[type="bug"]:before {
+  background-color: var(--bug);
+}
+.type-list ul li[type="rock"]:before {
+  background-color: var(--rock);
+}
+.type-list ul li[type="ghost"]:before {
+  background-color: var(--ghost);
+}
+.type-list ul li[type="dragon"]:before {
+  background-color: var(--dragon);
+}
+.type-list ul li[type="dark"]:before {
+  background-color: var(--dark);
+}
+.type-list ul li[type="steel"]:before {
+  background-color: var(--steel);
+}
+.type-list ul li[type="fairy"]:before {
+  background-color: var(--fairy);
 }

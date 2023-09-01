@@ -1,14 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
+import React, { useState, useEffect } from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
 // import App from './App';
-import reportWebVitals from './reportWebVitals';
-import Pokedex from 'pokedex-promise-v2';
+import reportWebVitals from "./reportWebVitals";
+import Pokedex from "pokedex-promise-v2";
 const P = new Pokedex();
-const totalPokemon = 1020;
+
+console.log(await P.getPokemonSpeciesList());
 
 const PokemonCard = (pokemon) => {
   const thisPokemon = { ...pokemon.pokemon };
+  // document.body.style.background = thisPokemon.sprites.other.home.front_default;
 
   console.log(thisPokemon);
   return (
@@ -28,36 +30,79 @@ const PokemonCard = (pokemon) => {
   );
 };
 
+const HeldItemsList = ({ items }) => {
+  const [itemDetails, setItemDetails] = useState([]);
+
+  useEffect(() => {
+    // Function to fetch item details for each held item
+    async function fetchItemDetails() {
+      const itemDetailsData = [];
+
+      for (const item of items) {
+        try {
+          const response = await P.getItemByName(item.item.name);
+          itemDetailsData.push(response);
+        } catch (err) {
+          console.error("Error:", err);
+        }
+      }
+
+      setItemDetails(itemDetailsData);
+    }
+
+    fetchItemDetails();
+  }, [items]);
+
+  return (
+    itemDetails.length > 0 && (
+      <div className="held-items">
+        <h2>Held items</h2>
+        <ul>
+          {itemDetails.map((itemDetail, index) => (
+            <li key={index}>
+              <img src={itemDetail.sprites.default} alt={itemDetail.name} />
+              {formatName(itemDetail.name)}
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  );
+};
+
 const SpriteList = (spriteList) => {
   return (
     <div className="sprites">
-      {spriteList.spriteList.front_default && (
-        <span>
-          <img src={spriteList.spriteList.front_default} alt="default sprite" />
-          Default
-        </span>
-      )}
+      <h2>Sprites</h2>
+      <div>
+        {spriteList.spriteList.front_default && (
+          <span>
+            <img src={spriteList.spriteList.front_default} alt="default sprite" width="96" />
+            Default
+          </span>
+        )}
 
-      {spriteList.spriteList.front_shiny && (
-        <span>
-          <img src={spriteList.spriteList.front_shiny} alt="shiny sprite" />
-          Shiny
-        </span>
-      )}
+        {spriteList.spriteList.front_shiny && (
+          <span>
+            <img src={spriteList.spriteList.front_shiny} alt="shiny sprite" width="96" />
+            Shiny
+          </span>
+        )}
 
-      {spriteList.spriteList.front_female && (
-        <span>
-          <img src={spriteList.spriteList.front_female} alt="female sprite" />
-          Female
-        </span>
-      )}
+        {spriteList.spriteList.front_female && (
+          <span>
+            <img src={spriteList.spriteList.front_female} alt="female sprite" width="96" />
+            Female
+          </span>
+        )}
 
-      {spriteList.spriteList.front_shiny_female && (
-        <span>
-          <img src={spriteList.spriteList.front_shiny_female} alt="shiny female sprite" />
-          Shiny female
-        </span>
-      )}
+        {spriteList.spriteList.front_shiny_female && (
+          <span>
+            <img src={spriteList.spriteList.front_shiny_female} alt="shiny female sprite" width="96" />
+            Shiny female
+          </span>
+        )}
+      </div>
     </div>
   );
 };
@@ -67,7 +112,7 @@ const BaseStatsList = (stats) => {
   stats.stats.forEach((stat) => {
     statsList.push(
       <tr key={stat.stat.name}>
-        <td>{stat.stat.name}</td>
+        <td>{formatName(stat.stat.name)}</td>
         <td>{stat.base_stat}</td>
       </tr>
     );
@@ -86,42 +131,42 @@ const BaseStatsList = (stats) => {
 const TypeList = (types) => {
   const typeList = [];
   types.types.forEach((type) => {
-    typeList.push(<span key={`type-${type.slot}`}>{type.type.name}</span>);
+    typeList.push(
+      <li key={`type-${type.slot}`} type={type.type.name}>
+        {formatName(type.type.name)}
+      </li>
+    );
   });
 
   return (
     <span className="type-list">
       <h2>Types</h2>
-      {typeList}
+      <ul>{typeList}</ul>
     </span>
   );
 };
 
-const HeldItemsList = (items) => {
-  const itemsList = [];
-  items.items.forEach((item) => {
-    itemsList.push(<li key={items.items.indexOf(item)}>{item.item.name}</li>);
-  });
+// Function to capitalize the first letter of the first word
+function formatName(name) {
+  // Split the name by hyphens
+  const words = name.split("-");
 
-  return (
-    itemsList.length > 0 && (
-      <div className="held-items">
-        <h2>Held items</h2>
-        <ul>{itemsList}</ul>
-      </div>
-    )
-  );
-};
+  // Capitalize the first letter of the first word and join it with the rest
+  const formattedName = words[0].charAt(0).toUpperCase() + words[0].slice(1) + (words.length > 1 ? " " + words.slice(1).join("-") : "");
+
+  return formattedName;
+}
 
 const getRandomPokemon = async () => {
+  const totalPokemon = 1010;
   const randomNumber = Math.ceil(Math.random() * totalPokemon);
-  // const myPokemon = await P.getPokemonByName(randomNumber);
-  const myPokemon = await P.getPokemonByName(396);
+  const myPokemon = await P.getPokemonByName(randomNumber);
+  // const myPokemon = await P.getPokemonByName(396);
   return myPokemon;
 };
 
 const myPokemon = await getRandomPokemon();
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <PokemonCard pokemon={myPokemon} />
@@ -140,3 +185,5 @@ const heightToCM = (decimetres) => {
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+
+console.log(await P.getEvolutionChainsList());
