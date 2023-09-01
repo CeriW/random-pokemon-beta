@@ -15,43 +15,50 @@ const PokemonApp = () => {
     return myPokemon;
   };
 
-  const handleGeneratePokemon = async () => {
+  const generateNewPokemon = async () => {
     const newRandomPokemon = await getRandomPokemon();
     setCurrentPokemon(newRandomPokemon);
   };
 
+  useEffect(() => {
+    generateNewPokemon();
+  }, []); // The empty dependency array ensures this effect runs only once on mount
+
   return (
     <div>
       {currentPokemon ? <PokemonCard pokemon={currentPokemon} /> : ''}
-      <button onClick={handleGeneratePokemon}>Generate Random Pokemon</button>
+      <button onClick={generateNewPokemon}>Generate Random Pokemon</button>
     </div>
   );
 };
 
-const PokemonCard = (pokemon) => {
-  const thisPokemon = { ...pokemon.pokemon };
+const PokemonCard = ({ pokemon }) => {
   return (
     <div className="pokemon-card">
       <div className="pokemon-name">
-        <h1>{thisPokemon.name}</h1>
-        <span className="pokemon-id">#{thisPokemon.id}</span>
+        <h1>{pokemon.name}</h1>
+        <span className="pokemon-id">#{pokemon.id}</span>
       </div>
-      <img className="pokemon-img-main" src={thisPokemon.sprites.other.home.front_default} alt={thisPokemon.name} />
-      <SpriteList spriteList={thisPokemon.sprites} />
-      <div className="pokemon-weight">Weight: {weightToKilos(thisPokemon.weight)}kg</div>
-      <div className="pokemon-height">Height: {heightToCM(thisPokemon.height)}cm</div>
-      <BaseStatsList stats={thisPokemon.stats} />
-      <TypeList types={thisPokemon.types} />
-      <HeldItemsList items={thisPokemon.held_items} />
+      <PokemonImage pokemon={pokemon} />
+      <SpriteList spriteList={pokemon.sprites} />
+      <div className="pokemon-weight">Weight: {weightToKilos(pokemon.weight)}kg</div>
+      <div className="pokemon-height">Height: {heightToCM(pokemon.height)}cm</div>
+      <BaseStatsList stats={pokemon.stats} />
+      <TypeList types={pokemon.types} />
+      <HeldItemsList items={pokemon.held_items} />
     </div>
   );
+};
+
+const PokemonImage = ({ pokemon }) => {
+  const imgSrc = pokemon.sprites.other.home.front_default ?? pokemon.sprites.other['official-artwork'].front_default;
+  return <img className="pokemon-img-main" src={imgSrc} alt={pokemon.name} />;
 };
 
 const HeldItemsList = ({ items }) => {
   const [itemDetails, setItemDetails] = useState([]);
 
   useEffect(() => {
-    // Function to fetch item details for each held item
     async function fetchItemDetails() {
       const itemDetailsData = [];
 
@@ -178,6 +185,7 @@ function formatName(name) {
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <h1>Random Pokemon generator</h1>
     <PokemonApp />
   </React.StrictMode>
 );
@@ -194,5 +202,3 @@ const heightToCM = (decimetres) => {
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
-
-// console.log(await P.getEvolutionChainsList());
